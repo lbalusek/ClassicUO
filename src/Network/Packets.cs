@@ -258,13 +258,69 @@ namespace ClassicUO.Network
     {
         public PSelectCharacter(uint index, string name, uint ipclient) : base(0x5D)
         {
-            WriteUInt(0xEDEDEDED);
-            WriteASCII(name, 30);
-            Skip(2);
-            WriteUInt((uint) Client.Protocol);
-            Skip(24);
+            // Copied from Wireshark, i have completely no idea what these data mean,
+            // its a mix of checksums, timestamps and other Endor specific stuff
+            // We are setting just NAME and INDEX, everything else is static
+            
+            WriteByte(0xed); // í
+            WriteByte(0xed); // í
+            WriteByte(0xed); // í
+            WriteByte(0xed); // í
+
+            // Name
+            WriteASCII(name, 17);
+            
+            WriteByte(0xa0); //  
+            WriteByte(0x5b); // [
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0x86); // ?
+            WriteByte(0x49); // I
+            WriteByte(0x81); // ?
+            WriteByte(0x46); // F
+            WriteByte(0x0f); // 
+            WriteByte(0x27); // '
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0x78); // x
+            WriteByte(0xca); // E
+            WriteByte(0xb9); // 1
+            WriteByte(0xe4); // ä
+            WriteByte(0x1c); // 
+            WriteByte(0x00); //
+            WriteByte(0x78); // x
+            WriteByte(0x2e); // .
+            WriteByte(0xf6); // ö
+            WriteByte(0xb3); // 3
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0x04); // ╝
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0xb2); // 2
+            WriteByte(0xfb); // u
+            WriteByte(0x1d); // 
+            WriteByte(0x6e); // n
+            WriteByte(0x7c); // |
+            WriteByte(0x37); // 7
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            WriteByte(0x00); //
+            
+            // Index
             WriteUInt(index);
-            WriteUInt(ipclient);
+            
+            WriteByte(0xc0); // A
+            WriteByte(0xa8); // ¨
+            WriteByte(0x38); // 8
+            WriteByte(0x01); // ╔
         }
     }
 
